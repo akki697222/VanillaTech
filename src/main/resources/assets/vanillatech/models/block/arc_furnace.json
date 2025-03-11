@@ -1,0 +1,9 @@
+{
+	"loader": "neoforge:obj",
+	"model": "vanillatech:models/multiblock/arc_furnace.obj",
+	"mtl_override": "vanillatech:models/multiblock/arc_furnace.mtl",
+	"textures": {
+		"texture0": "vanillatech:block/multiblocks/arc_furnace"
+	},
+	"automatic_culling": false
+}

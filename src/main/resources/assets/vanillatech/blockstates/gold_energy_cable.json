@@ -1,0 +1,11 @@
+{
+  "multipart": [
+    { "apply": { "model": "vanillatech:block/gold_energy_cable" } },
+    { "when": { "north": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "y": 0 } },
+    { "when": { "east": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "y": 90 } },
+    { "when": { "south": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "y": 180 } },
+    { "when": { "west": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "y": 270 } },
+    { "when": { "up": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "x": -90 } },
+    { "when": { "down": "true" }, "apply": { "model": "vanillatech:block/gold_energy_cable_connector", "x": 90 } }
+  ]
+}

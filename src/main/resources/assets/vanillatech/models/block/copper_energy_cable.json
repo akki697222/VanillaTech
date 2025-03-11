@@ -1,0 +1,7 @@
+{
+  "parent": "vanillatech:block/energy_cable",
+  "textures": {
+    "0": "vanillatech:block/copper_energy_cable",
+    "particle": "vanillatech:block/copper_energy_cable"
+  }
+}
