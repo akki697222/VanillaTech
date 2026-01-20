@@ -1,11 +1,11 @@
-package akki697222.vanillatech.common.machines.arcfurnace;
+package akki697222.vanillatech.common.machine.arcfurnace;
 
 import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.common.Quality;
 import akki697222.vanillatech.api.common.block.machine.MachineBlock;
-import akki697222.vanillatech.api.common.block.machine.MachineEnergyInterface;
 import akki697222.vanillatech.api.common.block.machine.MachineInterface;
 import akki697222.vanillatech.api.common.energy.SimpleEnergyStorage;
+import akki697222.vanillatech.api.common.fluid.SingleFluidHandler;
 import akki697222.vanillatech.common.VTBlockEntities;
 import akki697222.vanillatech.common.VTComponents;
 import akki697222.vanillatech.common.VTItems;
@@ -46,11 +46,15 @@ public class ArcFurnaceBlockEntity extends MachineBlockEntity {
                 VTBlockEntities.ARC_FURNACE.get(),
                 pos,
                 blockState,
-                new SimpleEnergyStorage(32000, 1000, 0), 2);
+                new SimpleEnergyStorage(32000, 1000, 0),
+                new SingleFluidHandler(0, 0),
+                SLOT_NUM, 2);
 
-        machineInterfaces.add(new MachineEnergyInterface(
+        machineInterfaces.add(new MachineInterface(
                 new BlockPos(0, 0, 1),
-                MachineInterface.InterfaceSide.BACK));
+                MachineInterface.InterfaceSide.BACK,
+                MachineInterface.InterfaceType.ENERGY,
+                MachineInterface.InterfaceIO.IN));
     }
 
     @Override
@@ -60,7 +64,8 @@ public class ArcFurnaceBlockEntity extends MachineBlockEntity {
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory, @NotNull Player player) {
-        return new ArcFurnaceMenu(containerId, inventory, this, this.containerData, this.simpleEnergyStorage);
+        super.createMenu(containerId, inventory, player);
+        return new ArcFurnaceMenu(containerId, inventory, this, this.containerData, (SimpleEnergyStorage) this.energyStorage);
     }
 
     @Override
@@ -96,11 +101,11 @@ public class ArcFurnaceBlockEntity extends MachineBlockEntity {
 
                 if (canOutput) {
                     int energyCostPerTick = recipe.getEnergyRequires() / recipe.getProcessingTime();
-                    if (simpleEnergyStorage.getEnergyStored() >= energyCostPerTick) {
+                    if (energyStorage.getEnergyStored() >= energyCostPerTick) {
                         maxProgress = recipe.getProcessingTime();
                         progress++;
                         isActive = true;
-                        simpleEnergyStorage.extractEnergy(energyCostPerTick, false);
+                        energyStorage.extractEnergy(energyCostPerTick, false);
                         setChanged();
 
                         if (progress >= recipe.getProcessingTime()) {

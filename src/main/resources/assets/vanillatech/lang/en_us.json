@@ -25,10 +25,14 @@
   "item.vanillatech.slag": "Slag",
   "item.vanillatech.electrode": "Electrode",
   "block.vanillatech.arc_furnace": "Arc Furnace",
+  "block.vanillatech.solid_fuel_boiler": "Solid Fuel Boiler",
   "block.vanillatech.steel_block": "Steel Block",
   "block.vanillatech.copper_energy_cable": "Energy Cable (Copper)",
   "block.vanillatech.gold_energy_cable": "Energy Cable (Gold)",
+  "block.vanillatech.copper_fluid_pipe": "Fluid Pipe (Copper)",
+  "fluid.vanillatech.steam": "Steam",
   "gui.vanillatech.arc_furnace.title": "Arc Furnace",
+  "gui.vanillatech.boiler.title": "Boiler",
   "misc.title.vanillatech": "Vanilla Tech",
   "jei.vanillatech.hammer_processing": "Hammer Processing"
 }

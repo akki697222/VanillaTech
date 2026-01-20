@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "facing=north,slave=false": { "model": "vanillatech:block/solid_fuel_boiler" },
+    "facing=east,slave=false": { "model": "vanillatech:block/solid_fuel_boiler", "y": 90 },
+    "facing=south,slave=false": { "model": "vanillatech:block/solid_fuel_boiler", "y": 180 },
+    "facing=west,slave=false": { "model": "vanillatech:block/solid_fuel_boiler", "y": 270 },
+    "slave=true": { "model":  "vanillatech:block/empty" }
+  }
+}

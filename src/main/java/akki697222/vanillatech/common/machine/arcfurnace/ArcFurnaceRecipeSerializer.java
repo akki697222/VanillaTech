@@ -1,4 +1,4 @@
-package akki697222.vanillatech.common.machines.arcfurnace;
+package akki697222.vanillatech.common.machine.arcfurnace;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

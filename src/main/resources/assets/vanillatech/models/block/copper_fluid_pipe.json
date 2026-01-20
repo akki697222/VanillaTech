@@ -1,0 +1,7 @@
+{
+  "parent": "vanillatech:block/fluid_pipe",
+  "textures": {
+    "0": "vanillatech:block/copper_fluid_pipe",
+    "particle": "vanillatech:block/copper_fluid_pipe"
+  }
+}

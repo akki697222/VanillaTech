@@ -1,6 +1,5 @@
 package akki697222.vanillatech.common;
 
-import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.VanillaTechAPI;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

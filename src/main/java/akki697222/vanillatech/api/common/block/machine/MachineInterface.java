@@ -3,7 +3,7 @@ package akki697222.vanillatech.api.common.block.machine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 
-public abstract class MachineInterface {
+public record MachineInterface(BlockPos offset, InterfaceSide side, InterfaceType type, InterfaceIO ioType) {
     public enum InterfaceSide {
         FRONT,
         BACK,
@@ -24,19 +24,15 @@ public abstract class MachineInterface {
         }
     }
 
-    protected final BlockPos offset;
-    protected final InterfaceSide side;
-
-    public MachineInterface(BlockPos offset, InterfaceSide side) {
-        this.offset = offset;
-        this.side = side;
+    public enum InterfaceIO {
+        IN,
+        OUT,
+        BOTH
     }
 
-    public BlockPos getOffset() {
-        return offset;
-    }
-
-    public InterfaceSide getSide() {
-        return side;
+    public enum InterfaceType {
+        ENERGY,
+        FLUID,
+        ITEM
     }
 }

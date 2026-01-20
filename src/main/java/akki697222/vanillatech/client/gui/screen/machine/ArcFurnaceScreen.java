@@ -2,13 +2,16 @@ package akki697222.vanillatech.client.gui.screen.machine;
 
 import akki697222.vanillatech.api.VanillaTechAPI;
 import akki697222.vanillatech.api.client.gui.screen.MachineScreen;
-import akki697222.vanillatech.common.machines.arcfurnace.ArcFurnaceMenu;
+import akki697222.vanillatech.common.machine.arcfurnace.ArcFurnaceMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArcFurnaceScreen extends MachineScreen<ArcFurnaceMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = VanillaTechAPI.location("textures/gui/arc_furnace_gui.png");

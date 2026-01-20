@@ -24,6 +24,7 @@ public class VTItemTagProvider extends ItemTagsProvider {
         tag(VTTags.commonItemTag("plates/gold")).add(VTItems.GOLD_PLATE.get());
         tag(VTTags.commonItemTag("plates/copper")).add(VTItems.COPPER_PLATE.get());
         tag(VTTags.commonItemTag("plates/steel")).add(VTItems.STEEL_PLATE.get());
+        tag(VTTags.commonItemTag("ingots/steel")).add(VTItems.STEEL_INGOT.get());
         tag(VTTags.vtItemTag("silicon/material")).add(VTItems.SILICON_INGOT.get());
     }
 }

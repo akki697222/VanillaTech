@@ -29,6 +29,8 @@ public class VTBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         pickaxeMineable(VTBlocks.ARC_FURNACE.get(), ToolType.IRON);
         pickaxeMineable(VTBlocks.STEEL_BLOCK.get(), ToolType.IRON);
+        pickaxeMineable(VTBlocks.GOLD_ENERGY_CABLE.get(), ToolType.STONE);
+        pickaxeMineable(VTBlocks.COPPER_ENERGY_CABLE.get(), ToolType.STONE);
     }
 
     private void pickaxeMineable(Block block, @Nullable ToolType type) {

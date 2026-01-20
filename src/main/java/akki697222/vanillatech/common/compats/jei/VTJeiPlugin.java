@@ -6,15 +6,13 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @JeiPlugin
 public class VTJeiPlugin implements IModPlugin {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VanillaTech.MODID.concat("/JEI"));
     public static final ResourceLocation ID = VanillaTechAPI.location("jei_plugin");
 
     @Override

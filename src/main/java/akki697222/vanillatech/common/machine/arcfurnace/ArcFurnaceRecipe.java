@@ -1,4 +1,4 @@
-package akki697222.vanillatech.common.machines.arcfurnace;
+package akki697222.vanillatech.common.machine.arcfurnace;
 
 import akki697222.vanillatech.api.common.recipe.MachineRecipe;
 import akki697222.vanillatech.common.VTRecipeSerializers;

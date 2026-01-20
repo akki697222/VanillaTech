@@ -1,6 +1,6 @@
 {
   "variants": {
-    "facing=north,slave=false": { "model": "vanillatech:block/arc_furnace" },
+    "facing=north,slave=false": { "model": "vanillatech:block/arc_furnace", "y": 90 },
     "facing=east,slave=false": { "model": "vanillatech:block/arc_furnace", "y": 90 },
     "facing=south,slave=false": { "model": "vanillatech:block/arc_furnace", "y": 180 },
     "facing=west,slave=false": { "model": "vanillatech:block/arc_furnace", "y": 270 },

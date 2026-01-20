@@ -4,6 +4,7 @@ import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.common.block.cable.CableBlock;
 import akki697222.vanillatech.api.common.block.machine.MachineBlock;
 import akki697222.vanillatech.api.common.block.machine.MachineBlockEntity;
+import akki697222.vanillatech.api.common.block.machine.MachineInterface;
 import akki697222.vanillatech.api.common.energy.SimpleEnergyStorage;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -30,7 +31,13 @@ public abstract class EnergyCableBlock extends CableBlock implements IBlockCapab
             return false;
         }
 
-        return level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction.getOpposite()) != null;
+        boolean canConnect = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction.getOpposite()) != null;
+
+        if (level.getBlockEntity(pos) instanceof MachineBlockEntity machineBlockEntity) {
+            canConnect = machineBlockEntity.getPort(direction.getOpposite(), pos, level.getBlockState(pos), MachineInterface.InterfaceType.ENERGY) != null;
+        }
+
+        return canConnect;
     }
 
     @Override

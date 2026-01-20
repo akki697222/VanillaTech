@@ -1,6 +1,5 @@
 package akki697222.vanillatech.common;
 
-import net.minecraft.util.datafix.fixes.FurnaceRecipeFix;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -10,7 +9,8 @@ public class VTBlockProperties {
     public static final Properties MACHINE = Properties.of()
             .strength(3.5F, 6.0F)
             .requiresCorrectToolForDrops()
-            .sound(SoundType.METAL);
+            .sound(SoundType.METAL)
+            .noOcclusion();
 
     public static final Properties METAL = Properties.of()
             .mapColor(MapColor.METAL)

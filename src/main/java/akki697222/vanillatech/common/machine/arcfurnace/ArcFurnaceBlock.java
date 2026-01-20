@@ -1,7 +1,5 @@
-package akki697222.vanillatech.common.machines.arcfurnace;
+package akki697222.vanillatech.common.machine.arcfurnace;
 
-import akki697222.vanillatech.api.common.block.machine.MachineEnergyInterface;
-import akki697222.vanillatech.api.common.block.machine.MachineInterface;
 import akki697222.vanillatech.common.VTBlockEntities;
 import akki697222.vanillatech.common.VTBlockProperties;
 import akki697222.vanillatech.api.common.block.machine.MachineBlock;
@@ -72,11 +70,13 @@ public class ArcFurnaceBlock extends MachineBlock {
 
     @Override
     public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean moved) {
-        for (BlockPos blockPos : customSlaves) {
-            BlockPos slavePos = adjustPos(pos, offset, state.getValue(FACING), blockPos.getX(), blockPos.getY(), blockPos.getZ());
-            BlockState slaveState = level.getBlockState(slavePos);
-            if (slaveState.is(this) && slaveState.getValue(SLAVE)) {
-                level.destroyBlock(slavePos, false);
+        if (!state.is(newState.getBlock()) && !state.getValue(SLAVE)) {
+            for (BlockPos blockPos : customSlaves) {
+                BlockPos slavePos = adjustPos(pos, offset, state.getValue(FACING), blockPos.getX(), blockPos.getY(), blockPos.getZ());
+                BlockState slaveState = level.getBlockState(slavePos);
+                if (slaveState.is(this) && slaveState.getValue(SLAVE)) {
+                    level.destroyBlock(slavePos, false);
+                }
             }
         }
 

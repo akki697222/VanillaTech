@@ -1,6 +1,5 @@
 package akki697222.vanillatech.api.client.gui.screen;
 
-import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.VanillaTechAPI;
 import akki697222.vanillatech.api.common.menu.MachineMenu;
 import net.minecraft.client.Minecraft;
@@ -27,42 +26,46 @@ public abstract class MachineScreen<T extends MachineMenu> extends AbstractConta
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
-        int energyStored = menu.getEnergyStored();
-        int maxEnergy = menu.getMaxEnergy();
-        int gaugeHeight = (int) ((energyStored / (float) maxEnergy) * 41);
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float v, int i, int i1) {
+        if (menu.hasEnergyBar()) {
+            int energyStored = menu.getEnergyStorage().getEnergyStored();
+            int maxEnergy = menu.getEnergyStorage().getMaxEnergyStored();
+            int gaugeHeight = (int) ((energyStored / (float) maxEnergy) * 41);
 
-        Minecraft.getInstance().getTextureManager().bindForSetup(ENERGY_FILL);
+            Minecraft.getInstance().getTextureManager().bindForSetup(ENERGY_FILL);
 
-        int x = leftPos + (imageWidth / 2) + 66;
-        int y = topPos + 7;
-        guiGraphics.blit(
-                ENERGY_FILL,
-                x, y + (41 - gaugeHeight),
-                0, 41 - gaugeHeight,
-                12, gaugeHeight,
-                12, 41
-        );
+            int x = leftPos + (imageWidth / 2) + 66;
+            int y = topPos + 7;
+            guiGraphics.blit(
+                    ENERGY_FILL,
+                    x, y + (41 - gaugeHeight),
+                    0, 41 - gaugeHeight,
+                    12, gaugeHeight,
+                    12, 41
+            );
+        }
     }
 
     @Override
     protected void renderTooltip(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderTooltip(guiGraphics, mouseX, mouseY);
 
-        int barX = leftPos + (imageWidth / 2) + 66;
-        int barY = topPos + 7;
-        int barWidth = 12;
-        int barHeight = 41;
+        if (menu.hasEnergyBar()) {
+            int barX = leftPos + (imageWidth / 2) + 66;
+            int barY = topPos + 7;
+            int barWidth = 12;
+            int barHeight = 41;
 
-        if (mouseX >= barX && mouseX < barX + barWidth && mouseY >= barY && mouseY < barY + barHeight) {
-            int energyStored = menu.getEnergyStored();
-            int maxEnergy = menu.getMaxEnergy();
+            if (mouseX >= barX && mouseX < barX + barWidth && mouseY >= barY && mouseY < barY + barHeight) {
+                int energyStored = menu.getEnergyStorage().getEnergyStored();
+                int maxEnergy = menu.getEnergyStorage().getMaxEnergyStored();
 
-            guiGraphics.renderTooltip(font,
-                    Component.literal(energyStored + " / " + maxEnergy + "FE"),
-                    mouseX,
-                    mouseY
-            );
+                guiGraphics.renderTooltip(font,
+                        Component.literal(energyStored + " / " + maxEnergy + "FE"),
+                        mouseX,
+                        mouseY
+                );
+            }
         }
     }
 

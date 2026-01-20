@@ -40,6 +40,9 @@ public class VTBlockLootSubProvider extends BlockLootSubProvider {
                         .when(isNotSlave)
                 )
         );
+        dropSelf(VTBlocks.COPPER_ENERGY_CABLE.get());
+        dropSelf(VTBlocks.GOLD_ENERGY_CABLE.get());
+        dropSelf(VTBlocks.INFINITY_ENERGY_SOURCE.get());
         dropSelf(VTBlocks.STEEL_BLOCK.get());
     }
 

@@ -4,6 +4,7 @@ import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.common.Quality;
 import akki697222.vanillatech.common.VTComponents;
 import akki697222.vanillatech.common.VTItems;
+import akki697222.vanillatech.common.VTRecipeTypes;
 import akki697222.vanillatech.common.VTTags;
 import akki697222.vanillatech.common.item.VTItem;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -48,57 +50,28 @@ public class HammerItem extends VTItem {
 
         for (Entity entity : entities) {
             if (entity instanceof ItemEntity itemEntity) {
-                AABB entityBox = itemEntity.getBoundingBox();
-                var clipResult = entityBox.clip(start, end);
-                if (clipResult.isPresent()) {
-                    ItemStack droppedStack = itemEntity.getItem();
-                    boolean success = false;
-                    int usedDurability = droppedStack.getCount();
+                ItemStack droppedStack = itemEntity.getItem();
 
-                    if (droppedStack.is(VTTags.commonItemTag("ingots/iron"))) {
-                        ItemStack plateStack = new ItemStack(VTItems.IRON_PLATE.get(), droppedStack.getCount());
-                        plateStack.set(VTComponents.QUALITY.get(), Quality.BAD);
-                        itemEntity.setItem(plateStack);
+                var recipeHolder = level.getRecipeManager()
+                        .getRecipeFor(VTRecipeTypes.HAMMERING.get(), new SingleRecipeInput(droppedStack), level)
+                        .orElse(null);
 
-                        player.getCooldowns().addCooldown(this, 10);
-                        success = true;
-                    } else if (droppedStack.is(VTTags.commonItemTag("ingots/gold"))) {
-                        ItemStack plateStack = new ItemStack(VTItems.GOLD_PLATE.get(), droppedStack.getCount());
-                        plateStack.set(VTComponents.QUALITY.get(), Quality.BAD);
-                        itemEntity.setItem(plateStack);
+                if (recipeHolder != null) {
+                    HammeringRecipe recipe = recipeHolder.value();
 
-                        player.getCooldowns().addCooldown(this, 10);
-                        success = true;
-                    } else if (droppedStack.is(VTTags.commonItemTag("ingots/copper"))) {
-                        ItemStack plateStack = new ItemStack(VTItems.COPPER_PLATE.get(), droppedStack.getCount());
-                        plateStack.set(VTComponents.QUALITY.get(), Quality.BAD);
-                        itemEntity.setItem(plateStack);
+                    ItemStack resultStack = recipe.getResultItem().copy();
+                    resultStack.setCount(droppedStack.getCount());
+                    resultStack.set(VTComponents.QUALITY.get(), Quality.BAD);
 
-                        player.getCooldowns().addCooldown(this, 5);
-                        success = true;
-                    } else if (droppedStack.is(VTTags.commonItemTag("ingots/steel"))) {
-                        ItemStack plateStack = new ItemStack(VTItems.STEEL_PLATE.get(), droppedStack.getCount());
-                        plateStack.set(VTComponents.QUALITY.get(), Quality.BAD);
-                        itemEntity.setItem(plateStack);
+                    itemEntity.setItem(resultStack);
 
-                        player.getCooldowns().addCooldown(this, 5);
-                        success = true;
-                    } else if (droppedStack.is(VTTags.vtItemTag("silicon/material"))) {
-                        ItemStack plateStack = new ItemStack(VTItems.SILICON_WAFER.get(), droppedStack.getCount());
-                        plateStack.set(VTComponents.QUALITY.get(), Quality.BAD);
-                        itemEntity.setItem(plateStack);
-
-                        player.getCooldowns().addCooldown(this, 20);
-                        success = true;
+                    if (!player.isCreative()) {
+                        stack.hurtAndBreak(recipe.getDurabilityCost() * droppedStack.getCount(), player, EquipmentSlot.MAINHAND);
                     }
+                    player.getCooldowns().addCooldown(this, recipe.getCooldown());
+                    player.playSound(SoundEvents.ANVIL_USE, 1.0F, 1.0F);
 
-                    if (success) {
-                        if (!player.isCreative()) {
-                            stack.hurtAndBreak(usedDurability, player, EquipmentSlot.MAINHAND);
-                        }
-                        player.playSound(SoundEvents.ANVIL_USE, 1.0F, 1.0F);
-                        return InteractionResultHolder.success(stack);
-                    }
+                    return InteractionResultHolder.success(stack);
                 }
             }
         }

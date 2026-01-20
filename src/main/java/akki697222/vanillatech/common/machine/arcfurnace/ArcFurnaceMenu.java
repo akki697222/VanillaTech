@@ -1,6 +1,7 @@
-package akki697222.vanillatech.common.machines.arcfurnace;
+package akki697222.vanillatech.common.machine.arcfurnace;
 
 import akki697222.vanillatech.api.common.energy.SimpleEnergyStorage;
+import akki697222.vanillatech.api.common.fluid.SingleFluidHandler;
 import akki697222.vanillatech.api.common.menu.FilteredSlot;
 import akki697222.vanillatech.api.common.menu.MachineMenu;
 import akki697222.vanillatech.api.common.menu.OutputSlot;
@@ -16,13 +17,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class ArcFurnaceMenu extends MachineMenu {
     public ArcFurnaceMenu(int containerId, Inventory playerInventory, Container container, ContainerData containerData, SimpleEnergyStorage simpleEnergyStorage) {
-        super(VTMenuTypes.ARC_FURNACE.get(), containerId, playerInventory, container, containerData, simpleEnergyStorage);
+        super(VTMenuTypes.ARC_FURNACE.get(), containerId, playerInventory, container, containerData, simpleEnergyStorage, new SingleFluidHandler(0, 0), true);
 
         addMachineSlot();
     }
 
     public ArcFurnaceMenu(int containerId, Inventory playerInventory) {
-        super(VTMenuTypes.ARC_FURNACE.get(), containerId, playerInventory, new SimpleContainer(ArcFurnaceBlockEntity.SLOT_NUM), new SimpleContainerData(ArcFurnaceBlockEntity.SLOT_NUM), new SimpleEnergyStorage(0, 1000, 0));
+        super(VTMenuTypes.ARC_FURNACE.get(), containerId, playerInventory, new SimpleContainer(ArcFurnaceBlockEntity.SLOT_NUM), new SimpleContainerData(ArcFurnaceBlockEntity.SLOT_NUM + 2), new SimpleEnergyStorage(0, 1000, 0), new SingleFluidHandler(0, 0), true);
 
         addMachineSlot();
     }

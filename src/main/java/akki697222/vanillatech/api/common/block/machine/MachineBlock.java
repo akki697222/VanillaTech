@@ -4,12 +4,13 @@ import akki697222.vanillatech.VanillaTech;
 import akki697222.vanillatech.api.common.Quality;
 import akki697222.vanillatech.api.common.block.QualityHorizontalDirectionalBlock;
 import akki697222.vanillatech.api.common.energy.SimpleEnergyStorage;
+import akki697222.vanillatech.api.common.fluid.SingleFluidHandler;
 import akki697222.vanillatech.common.VTComponents;
 import akki697222.vanillatech.common.item.QualityItem;
-import akki697222.vanillatech.common.machines.arcfurnace.ArcFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -39,7 +40,7 @@ public abstract class MachineBlock extends QualityHorizontalDirectionalBlock imp
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public MachineBlock(Properties properties, BlockPos size, BlockPos offset) {
-        super(properties);
+        super(properties.noOcclusion());
         this.size = size;
         this.offset = offset;
         this.registerDefaultState(this.stateDefinition.any()
@@ -58,17 +59,17 @@ public abstract class MachineBlock extends QualityHorizontalDirectionalBlock imp
             List<MachineInterface> machineInterfaces = machineBlockEntity.getMachineInterfaces();
             BlockPos masterPos = machineBlockEntity.getMasterPos();
             for (MachineInterface machineInterface : machineInterfaces) {
-                VanillaTech.LOGGER.info("Checking Machine interface (Side: {}, Offset: {})", machineInterface.getSide(), machineInterface.getOffset());
-                boolean isThis = masterPos != null && masterPos.offset(machineInterface.getOffset()).equals(blockPos);
+                VanillaTech.LOGGER.info("Checking Machine interface (Side: {}, Offset: {})", machineInterface.side(), machineInterface.offset());
+                boolean isThis = masterPos != null && masterPos.offset(machineInterface.offset()).equals(blockPos);
 
                 if (masterPos != null) {
-                    VanillaTech.LOGGER.info(masterPos.offset(machineInterface.getOffset()).toString());
+                    VanillaTech.LOGGER.info(masterPos.offset(machineInterface.offset()).toString());
                 }
 
                 if (isThis) {
                     Direction direction = MachineInterface.InterfaceSide.getFacingFromSide(
                             blockState.getValue(MachineBlock.FACING),
-                            machineInterface.getSide());
+                            machineInterface.side());
 
                     if (direction.equals(side)) {
                         return machineBlockEntity.getEnergyStorage();
@@ -109,11 +110,16 @@ public abstract class MachineBlock extends QualityHorizontalDirectionalBlock imp
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useWithoutItem(
+            @NotNull BlockState state,
+            Level level,
+            @NotNull BlockPos pos,
+            @NotNull Player player,
+            @NotNull BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof ArcFurnaceBlockEntity arcFurnace) {
-                player.openMenu(arcFurnace);
+            if (be instanceof MenuProvider menuProvider) {
+                player.openMenu(menuProvider);
                 return InteractionResult.CONSUME;
             }
         }
@@ -182,7 +188,8 @@ public abstract class MachineBlock extends QualityHorizontalDirectionalBlock imp
         BlockEntity be = level.getBlockEntity(slavePos);
         if (be instanceof MachineBlockEntity machine) {
             machine.setMasterPos(pos);
-            machine.simpleEnergyStorage = (SimpleEnergyStorage) master.getEnergyStorage();
+            machine.energyStorage = master.getEnergyStorage();
+            machine.fluidHandler = master.getFluidHandler();
             machine.containerData = master.getContainerData();
             machine.inventory = master.getInventory();
         }
